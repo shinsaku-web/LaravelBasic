@@ -16,8 +16,7 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $name = 'Laraveeeeel';
         $tweets = Tweet::all();
-        return view('tweet.index', compact('name', 'tweets'));
+        return view('tweet.index', compact('tweets'));
     }
 }
