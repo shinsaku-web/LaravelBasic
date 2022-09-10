@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Tweet;
+namespace App\Http\Controllers\Tweet\Update;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tweet;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndexController extends Controller
 {
@@ -14,9 +15,9 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $id)
     {
-        $tweets = Tweet::orderby('created_at', 'DESC')->get();
-        return view('tweet.index', compact('tweets'));
+        $tweet = Tweet::findOrFail($id);
+        return view('tweet.update', compact('tweet'));
     }
 }
