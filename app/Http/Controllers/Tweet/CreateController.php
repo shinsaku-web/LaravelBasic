@@ -22,7 +22,7 @@ class CreateController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        $tweets = Tweet::all();
+        $tweets = Tweet::orderby('created_at', 'DESC')->get();
         return redirect()->route('tweet.index', compact('tweets'));
         // return view('tweet.index', compact('tweets'));
     }
