@@ -18,7 +18,7 @@ class CreateController extends Controller
     public function __invoke(CreateRequest $request)
     {
         Tweet::create([
-            'user_id' => $request->userId(),
+            'user_id' => $request->user()->id,
             'content' => $request->tweet,
             'created_at' => now(),
             'updated_at' => now(),

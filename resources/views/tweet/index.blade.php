@@ -32,6 +32,7 @@
         <li>
             <details>
                 <summary>{{$tweet->content}} by {{$tweet->user->name}}</summary>
+                @if ($ownID === $tweet->user_id)                   
                 <div>
                     <a href="{{route('tweet.update.index',['tweetId'=>$tweet->id])}}">編集</a>
                     <form action="{{route('tweet.delete',['tweetId'=>$tweet->id])}}" method="post">
@@ -40,6 +41,9 @@
                         <button type="submit">削除</button>
                     </form>
                 </div>
+                @else
+                <p>編集できません</p>
+                @endif
             </details>
         </li>
         @endforeach

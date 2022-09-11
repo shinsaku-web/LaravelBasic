@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tweet;
 use App\Services\TweetService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -17,8 +18,8 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request, TweetService $tweetService)
     {
-        // $tweetService = new TweetService();
         $tweets = $tweetService->getTweets();
-        return view('tweet.index', compact('tweets'));
+        $ownID = Auth::id();
+        return view('tweet.index', compact('tweets', 'ownID'));
     }
 }
