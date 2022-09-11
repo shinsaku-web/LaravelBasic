@@ -1,53 +1,29 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>つぶやきアプリ</title>
-</head>
-
-<body>
-    <h1>つぶやきアプリ</h1>
-    @auth        
-    <div>
-        <p>投稿フォーム</p>
-        @if (session('feedback.success'))
-        <p style="color:green">{{session('feedback.success')}}</p>
-        @endif
-        @error('tweet')
-        <p style="color:red;">{{$message}}</p>
-        @enderror
-        <form action="{{route('tweet.create')}}" method="post">
-            @csrf
-            <label for="tweet-content">つぶやき</label>
-            <textarea name="tweet" id="tweet-content" cols="30" rows="10" placeholder="つぶやきを入力"></textarea>
-            <button type="submit">投稿</button>
-        </form>
-    </div>
-    @endauth
-    <ul>
-        @foreach($tweets as $tweet)
-        <li>
-            <details>
-                <summary>{{$tweet->content}} by {{$tweet->user->name}}</summary>
-                @if ($ownID === $tweet->user_id)                   
-                <div>
-                    <a href="{{route('tweet.update.index',['tweetId'=>$tweet->id])}}">編集</a>
-                    <form action="{{route('tweet.delete',['tweetId'=>$tweet->id])}}" method="post">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit">削除</button>
-                    </form>
-                </div>
-                @else
-                <p>編集できません</p>
-                @endif
-            </details>
-        </li>
-        @endforeach
-    </ul>
-</body>
-
-</html>
+<x-layout title="TOP | つぶやきアプリ">
+    <x-layout.single>
+        <h2 class="text-blue-500 text-center text-4xl font-bold my-8">つぶやきアプリ</h2>
+        <x-tweet.form.post></x-tweet.form.post>
+        <ul class="rounded-md mt-8 overflow-hidden shadow-sm">
+            @foreach($tweets as $tweet)
+            <li class="bg-white first:border-t-0 border-t border-gray-200 p-4">
+                    <div class="bg-blue-300 px-2 py-1 text-sm rounded-full inline-flex text-white">{{$tweet->user->name}}</div>
+                        <br>
+                        <p class="mt-4">
+                            {{$tweet->content}}
+                        </p>
+                    @if ($ownID === $tweet->user_id)                  
+                    <div class="flex space-x-4 mt-4">
+                        <a class="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500" href="{{route('tweet.update.index',['tweetId'=>$tweet->id])}}">編集</a>
+                        <form action="{{route('tweet.delete',['tweetId'=>$tweet->id])}}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button class="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-red-500" type="submit">削除</button>
+                        </form>
+                    </div>
+                    @else
+                    <p class="mt-4 text-gray-300">編集できません</p>
+                    @endif
+            </li>
+            @endforeach
+        </ul>
+    </x-layout.single>
+</x-layout>
