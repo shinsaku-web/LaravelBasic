@@ -20,7 +20,7 @@
         <p style="color:red;">{{$message}}</p>
         @enderror
         <form action="{{route('tweet.update.put',['tweetId'=>$tweet->id])}}" method="post">
-            @method('put')
+            @method('PUT')
             @csrf
             <label for="tweet-content">つぶやき140文字まで</label>
             <textarea name="tweet" id="tweet-content" cols="30" rows="10" placeholder="つぶやきを入力">{{$tweet->content}}
